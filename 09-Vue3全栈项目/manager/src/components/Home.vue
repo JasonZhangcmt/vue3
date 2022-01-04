@@ -1,6 +1,7 @@
 <script>
 import { Setting, Check, Fold, Bell, ArrowDown } from '@element-plus/icons'
 import TreeMenu from './TreeMenu.vue'
+import Breadcrumb from './Breadcrumb.vue'
 export default {
   name: 'home',
   components: {
@@ -9,7 +10,8 @@ export default {
     fold: Fold,
     bell: Bell,
     arrowDown: ArrowDown,
-    TreeMenu
+    TreeMenu,
+    Breadcrumb
   },
   data() {
     return {
@@ -79,21 +81,22 @@ export default {
       <div class="nav-top">
         <div class="nav-left">
           <fold class="menu-fold" @click="toggle"></fold>
-          <div class="bread">面包屑</div>
+          <div class="bread">
+            <breadcrumb></breadcrumb>
+          </div>
         </div>
         <div class="user-info">
           <el-badge :is-dot="noticeCount > 0 ? true : false" class="user-badge">
             <el-icon class="el-icon-bell">
-              <bell></bell>
+              <!-- <bell></bell> -->
             </el-icon>
           </el-badge>
           <!--  @command="handleLogout" 点击菜单触发的事件回调 -->
           <el-dropdown @command="handleLogout">
             <span class="user-link">
               {{ userInfo.userName }}
-              <el-icon class="el-icon-right">
-                <arrowDown></arrowDown>
-              </el-icon>
+              <!-- <el-icon class="el-icon-right">
+              </el-icon> -->
             </span>
             <template #dropdown>
               <el-dropdown-menu>
@@ -178,7 +181,7 @@ export default {
       .user-info {
         z-index: 2;
         .user-badge {
-          line-height: 30px;
+          line-height: 20px;
           margin-right: 15px;
         }
         .user-link {
