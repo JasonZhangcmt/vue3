@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/vue.js"></script>
+</head>
+<body>
+    <div id="box">
+        <!-- @change="handleChange()" 事件失去焦点时才会触发 -->
+        <!-- @input="handleInput()"   事件每次用户输入时都会触发一次 -->
+        <!-- <input type="text" @change="handleChange" @input="handleInput"> -->
+
+        <!-- 双向绑定的指令 -->
+        <input type="text" v-model="mytext">
+        <button @click="handleClick()">add</button>
+        <ul>
+            <li v-for="(data,index) in datalist">
+                {{data}}
+                <button @click="handleDel(index)">del</button>
+            </li>
+        </ul>
+    </div>
+    <script>
+        new Vue({
+            el: "#box",
+            data:{
+                mytext:'',
+                datalist:[]
+            },
+            methods: {
+                handleClick(){
+                    console.log("add",this.mytext);
+                    this.datalist.push(this.mytext)
+
+                    //重置input
+                    this.mytext = ''
+                },
+                handleDel(index){
+                    console.log("handleDel");
+                    this.datalist.splice(index,1)
+                }
+                // handleChange(evt){
+                //     console.log("handleChange",evt.target.value);
+                // },
+                // handleInput(evt){
+                //     console.log("handleInput",evt.target.value);
+                //     this.mytext = evt.target.value
+                // },
+            }
+        })
+    </script>
+    <div id="content">
+        <input type="text" v-model="inputcontent">
+        <button @click="handleAdd">添加</button>
+        <ul>
+            <li v-for="(item,index) in dataInput">
+                {{item}} <button @click="handleDelete(index)">删除</button>
+            </li>
+        </ul>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#content",
+            data:{
+                inputcontent:'',
+                dataInput: [],
+            },
+            methods: {
+                handleAdd(){
+                    if(this.inputcontent=='')
+                    {
+                        alert('请输入内容')
+                    }else{
+                        this.dataInput.push(this.inputcontent)
+                        this.inputcontent = '' 
+                    }
+                    
+                },
+                handleDelete(index){
+                    this.dataInput.splice(index,1)
+                }
+
+            }
+        })
+    </script>
+</body>
+</html>

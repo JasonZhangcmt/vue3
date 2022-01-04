@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input id="inputBox" type="text">
+    <div id="box"></div>
+    <div id="box2"></div>
+    <script>
+      var obox = document.getElementById("box");
+      var obox2 = document.getElementById("box2");
+      var inputText = document.getElementById("inputBox")
+      var obj = {};
+      // Object.defineProperty(obj, "myname", {
+      //   set(value) {
+      //     console.log("set改变", value);
+      //     obox.innerHTML = value;
+      //   },
+      //   get() {
+      //     console.log("get访问", obox.innerHTML);
+      //   },
+      // });                                                                              
+      // inputText.addEventListener('input', function(e){
+      //   obj.myname = e.target.value;
+      //   console.log("EventListener:",obj.myname) // 这里访问不到obj.myname 新增属性defineProperty无法拦截
+      // })
+      // console.log("外部、name属性未新增：",obj.myname)
+
+      // 给obj增加代理对象 -- newObj
+      let newObj = new Proxy(obj,{
+        get: (target, prop, receiver) => {
+          // console.log("get参数：","target:",target,"prop:", prop,"recevier:", receiver)
+          // obox.innerHTML = target.myname
+          return Reflect.get(target, prop, receiver);
+        },
+        set: (target, key, value, recevier) => {
+        //监听newProxy是否有新的变化
+          // console.log("set参数：","target:",target,"key:", key,"value:", value,"recevier:", recevier)
+          if (key == "myname") {
+            obox.innerHTML = value;
+          }
+          if (key == "mytext") {
+            obox2.innerHTML = value+value;
+          }
+          console.log("新增属性值：",value)
+          //将变化反射回原有对象
+          return Reflect.set(target, key, value, recevier);
+      }
+      })
+      inputText.addEventListener('input', function(e){
+        // obj.myname = e.target.value; 
+        // console.log("obj.myname:",obj.myname)
+        // console.log("newObj.myname:",newObj.myname)
+
+        newObj.myname = e.target.value;
+        newObj.mytext = e.target.value;
+        console.log("obj.myname:",obj.myname)
+        console.log("newObj.myname:",newObj.myname)
+        newObj.age = "18"
+      })
+      
+    </script>
+  </body>
+</html>

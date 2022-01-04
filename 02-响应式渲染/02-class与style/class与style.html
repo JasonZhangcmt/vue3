@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/vue.js"></script>
+    <style>
+        .red {
+            background-color: red;
+        }
+        .yellow {
+            background-color: yellow;
+        }
+        .aa {
+            background-color: red;
+        }
+        .bb {
+            font-size: small;
+        }
+        .cc {
+            background-color: seagreen;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <div :class="classobj">动态切换class-对象写法</div>
+        <div :class="classarr">动态切换class-数组写法</div>
+
+        <div :style="styleobj">动态切换style-对象写法</div>
+        <div :style="stylearr">动态切换style-数组写法</div>
+
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#box",
+            data: {
+                classobj: {
+                    aa: true,
+                    bb: true,
+                    cc: true
+                },
+                classarr: ["aa","bb","cc"],
+                styleobj: {
+                    backgroundColor: "red"
+                },
+                stylearr: [{
+                    backgroundColor: "red"
+                }],
+            }
+        })
+
+        //插队方法 特殊通道
+        //Vue.set(vm.classobj,"dd",true)
+        //vm.classarr.push("dd")
+
+        //Vue.set(vm.styleobj,"fontSize","40px")
+        // vm.stylearr.push({fontSize:"40px"})    //.pop()
+
+    </script>
+</body>
+</html>

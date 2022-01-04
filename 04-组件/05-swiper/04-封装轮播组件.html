@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Examples</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <link href="" rel="stylesheet">
+
+    <script type="text/javascript" src="lib/vue.js"></script>
+    <link rel="stylesheet" href="lib/swiper/css/swiper.css">
+    <script src="lib/swiper/js/swiper.js"></script>
+    <style>
+        .swiper-container {
+            width: 600px;
+            height: 300px;
+        }
+
+        .zjzj {
+            background: pink
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+        <!-- 虚拟dom diff算法：同key值保留只替换内容，不同key值会创建新的--mounted两次 -->
+        <swiper :key="datalist.length" :myoptions={loop:true}>
+            <div class="swiper-slide" v-for="(item,index) in datalist">{{item}}</div>
+            <!-- 左右按钮 -->
+            <template #swiperbutton>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </template>
+            <!-- 分页器 -->
+            <template #pagination>
+                <div class="swiper-pagination"></div>
+            </template>
+        </swiper>
+    </div>
+
+    <script type="text/javascript">
+
+        Vue.component("swiper", {
+            props: ["myoptions"],
+            template: `
+            <div class="swiper-container zjzj">
+                <div class="swiper-wrapper">
+                    <slot></slot>
+                </div>
+                <slot name="swiperbutton"></slot>
+                <slot name="pagination"></slot>
+            </div>
+            `,
+            mounted() {
+                console.log("options:", this.myoptions)
+                var baseoptions = {
+                    loop: false,
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                    },
+                }
+                new Swiper(".zjzj", Object.assign(baseoptions, this.myoptions))
+                console.log('mounted')
+            },
+            destroyed() {
+                console.log('destroyed')
+            }
+        })
+
+        var vm = new Vue({
+            el: "#box",
+            data: {
+                datalist: [],
+            },
+            mounted() {
+                setTimeout(() => {
+                    this.datalist = ['aaaaaaaaaaa', 'bbbbbbbbbbbbb', 'cccccccccccccc']
+                }, 2000)
+            },
+        })
+    </script>
+</body>
+
+</html>

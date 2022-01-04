@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+<style>
+  li {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+  }
+
+  li img {
+    width: 100px;
+  }
+</style>
+<script type="text/javascript" src="lib/vue.js"></script>
+
+<body>
+  <div id="box">
+    <div v-if="list.length===0"> 购物车空空</div>
+    <template v-else>
+      <ul>
+        <input type="checkbox" v-model="isAllChecked" @change="handleAllCheck()">全选/全不选
+        <li v-for="(item,index) in list" :key="item.id">
+          <input type="checkbox" v-model="checkGroup" :value="item" @change="checked()" />
+          <div><img :src="item.pic" alt="" /></div>
+          <div>
+            <div>名称：{{item.name}}</div>
+
+            <div>价格：￥{{item.price}}</div>
+          </div>
+          <div>
+            <button @click="item.number--" :disabled="item.number===1">-</button>
+            {{item.number}}
+            <button @click="item.number++" :disabled="item.number===item.limit">+</button>
+          </div>
+          <div><button @click="handleDel(index,item.id)">删除</button></div>
+        </li>
+      </ul>
+
+    </template>
+    <div>{{checkGroup}}</div>
+    <div style="background-color: salmon">
+
+      总金额：{{compute()}}
+    </div>
+  </div>
+  <script>
+    var vm = new Vue({
+      el: "#box",
+      data: {
+        checkGroup: [],
+        isAllChecked: false,
+        list: [
+          {
+            name: "商品1",
+            price: 10,
+            number: 1,
+            id: 1,
+            limit: 5, //限购
+            pic: "https://static.maizuo.com/pc/v5/usr/movie/44dc08914d508fc47c8267c6ca73f2d8.jpg",
+          },
+          {
+            name: "商品2",
+            price: 20,
+            number: 2,
+            id: 2,
+            limit: 10, //限购
+            pic: "https://static.maizuo.com/pc/v5/usr/movie/44dc08914d508fc47c8267c6ca73f2d8.jpg",
+          },
+          {
+            name: "商品3",
+            price: 30,
+            number: 3,
+            id: 3,
+            limit: 15, //限购
+            pic: "https://static.maizuo.com/pc/v5/usr/movie/44dc08914d508fc47c8267c6ca73f2d8.jpg",
+          },
+        ],
+      },
+
+      methods: {
+        compute() {
+          var allprice = 0;
+
+          // for (var i = 0; i < checkGroup.length; i++) {
+          //   allprice += checkGroup[i].price * checkGroup[i].number;
+          // }
+          console.log(allprice);
+          if (this.checkGroup.length != this.list.length) {
+            this.isAllChecked = false
+          } else {
+            this.isAllChecked = true
+          }
+          this.checkGroup.forEach(element => {
+            allprice += element.price * element.number
+          });
+          // console.log(allprice);
+          return allprice;
+        },
+        handleDel(index, deleteid) {
+          //   console.log(deleteid);
+          //   删除id对应的元素  --- 使用filter过滤 ---  需要更新checkGroup
+          this.checkGroup = this.checkGroup.filter(item => item.id !== deleteid)
+          this.list.splice(index, 1)
+        },
+        handleAllCheck() {
+          // if(this.checkGroup.length!=this.list.length){
+          //   this.isAllChecked=false
+          // }else{
+          //   this.isAllChecked=true
+          // }
+          if (this.isAllChecked) {
+            this.checkGroup = this.list
+          } else {
+            this.checkGroup = []
+          }
+        },
+        // checked() {
+        //   if (this.checkGroup.length != this.list.length) {
+        //     this.isAllChecked = false
+        //   } else {
+        //     this.isAllChecked = true
+        //   }
+        // }
+      },
+    });
+  </script>
+</body>
+
+</html>

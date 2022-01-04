@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        <ul>
+            <!-- <li v-for="item in datalist"> -->
+            <li v-for="(item,index) of datalist" :key="item.id">
+                {{item}}
+            </li>
+        </ul>
+        <ul>
+            <!-- 遍历对象的顺序 (item,key,index)-->
+            <!-- <li v-for="item in datalist"> -->
+            <li v-for="(item,key,index) of obj">
+                {{item}}--{{key}}--{{index}}
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: "#box",
+            data: {
+                datalist: ["aaaa", "bbbb", "cccc"],
+                obj: {
+                    name: "kerwin",
+                    age: 100,
+                    location: "dalian"
+                }
+            }
+        }) 
+        // vm.datalist[0] = "ZJ"             //不更改dom
+        // Vue.set(vm.datalist,0,"ZJ")      //可更改
+        // vm.datalist.splice(0,1,"ZJ")     //可更改
+       
+    </script>
+</body>
+
+</html>

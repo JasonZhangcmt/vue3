@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="box" style="background: yellow;">
+        <!-- 
+            <button>返回</button>
+            <span>导航</span>
+            <button>首页</button>
+            {{name}} 
+        -->
+        <!-- 
+            1. 组件起名字注意事项--js中：驼峰navBar   html:连接符 - nav-bar 
+            2. dom片段 没有代码提示 没有高亮显示 -- vue单文件组件解决
+            3. css 只能写成 行内。-- vue单文件组件解决
+            4. template 只能包含一个根节点 不能多个平级div
+            5. 组件是孤岛,无法【直接】访问外面的组件的状态或者方法。- 间接的组件通信来交流。     
+            6. 自定义的组件的 data 必须定义成一个函数 data(){ return{ myname:"ZJ", age:"18" }} 
+            7. 所有的组件都在一起，太乱了  --- vue单文件组件解决
+        -->
+        <navbar></navbar>
+        <navbar></navbar>
+        <navbar></navbar>
+        <kerwin-tabbar></kerwin-tabbar>
+
+    </div>
+    <script>
+        Vue.component("navbar", {
+            template: `
+                <div id="box" style="background: yellow;">
+                    <button @click="handleBack()">返回</button>
+                    <span>导航</span>
+                    <button @click="handleHome()">首页</button>
+                    {{myname}}--{{age}}
+                </div>
+            `, methods: {
+                handleBack() {
+                    console.log("返回")
+                },
+                handleHome() {
+                    console.log("首页")
+                }
+            }, watch: {
+            }, computed: {
+            },
+            data() {
+                return {
+                    myname: "ZJ",
+                    age: "18"
+                }
+            }
+        })
+
+        //局部定义组件 "tabbarchild"
+        Vue.component("kerwinTabbar", {
+            template: `
+                <div style="background:red">
+                    tabbbar  
+                    <navbar></navbar>  
+                    <tabbarchild></tabbarchild> 
+                </div>
+            `,
+            components: {
+                //局部定义
+                "tabbarchild": {
+                    template: `<div>tabbarchild</div>`
+                }
+            }
+        })
+        // 实质是 new一个根组件 无法与其他组件直接访问
+        var vm = new Vue({
+            el: "#box",
+            data: {
+                name: "ZJ"
+            }
+        })
+    </script>
+
+</html>

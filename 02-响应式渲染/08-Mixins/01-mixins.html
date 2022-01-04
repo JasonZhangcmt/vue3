@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        <button @click="handleClick()">click</button>
+        {{total}}
+        {{datalist}}
+    </div>
+
+    <script type="text/javascript">
+        //mixin 公共方法引入 -- 使得外部代码可复用
+        const obj2 = {
+            data: {
+                datalist: "外部数据"
+            },
+            methods: {
+                handleClick() {
+                    console.log("click3--外部定义3")
+                },
+                handleClick1() {
+                    console.log("click4--外部定义4")
+                }
+            },
+            computed: {
+                total() {
+                    return "computed3内容"
+                }
+            },
+        }
+
+        const obj = {
+            methods: {
+                handleClick() {
+                    console.log("click--外部定义")
+                },
+                handleClick1() {
+                    console.log("click2--外部定义2")
+                }
+            },
+            computed: {
+                total() {
+                    return "computed内容"
+                }
+            },
+        }
+
+
+
+
+        new Vue({
+            el: "#box",
+            data: {
+                datalist: "ZJ" //自己定义的同名变量 -- 会覆盖外部定义的方法
+            },
+            mixins: [obj, obj2], //混入obj对象,后面的obj2会覆盖obj1
+            methods: {
+                //自己定义的同名方法 -- 会覆盖外部定义的方法
+                handleClick() {
+                    console.log("click--内部定义")
+                }
+            },
+        })
+
+
+    </script>
+</body>
+
+</html>

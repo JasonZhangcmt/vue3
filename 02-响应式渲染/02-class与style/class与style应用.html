@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="lib/vue.js"></script>
+    <style>
+      .active {
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="box">
+      <ul>
+        <li
+          v-for="(item,index) in datalist"
+          @click="handleClick(index)"
+          :class="current===index?'active':''"
+        >
+          {{item}}
+        </li>
+      </ul>
+    </div>
+    <div id="content">
+      <ul>
+        <li
+          v-for="(item,index) in datacontent"
+          @click="handleChange(index)"
+          :class="currentclick===index?'active':''"
+        >
+          {{item}}
+        </li>
+      </ul>
+    </div>
+    <script>
+      new Vue({
+        el: "#box",
+        data: {
+          datalist: ["首页", "列表", "我的"],
+          current: 0,
+        },
+        methods: {
+          handleClick(index) {
+            console.log("点击:", index);
+            this.current = index;
+          },
+        },
+      });
+      var vm = new Vue({
+        el: "#content",
+        data: {
+          datacontent: ["首尔", "东京", "巴黎"],
+          currentclick: 0,
+        },
+        methods: {
+          handleChange(index) {
+            console.log(index);
+            this.currentclick = index;
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

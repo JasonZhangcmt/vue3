@@ -1,0 +1,7 @@
+[2022-01-02T15:07:51.948] [ERROR] error - ReferenceError: ctx is not defined
+    at D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\app.js:38:3
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa\node_modules\koa-compose\index.js:42:32)
+    at views (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-views\src\index.js:91:12)
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa\node_modules\koa-compose\index.js:42:32)
+    at serve (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-static\index.js:53:15)
+    at async bodyParser (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-bodyparser\index.js:95:5)

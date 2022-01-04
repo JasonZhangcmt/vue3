@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/vue.js"></script>
+</head>
+<body>
+    <div id="box">
+        vue模板语法
+        {{ 10 + 20 }}
+
+        {{ 20>10 ? 'aaa':'bbb'}}
+
+        {{myname}}-{{age}}
+    </div>
+    <div id="box2">
+        vue模板语法2
+        {{ 10 + 20 }}
+    </div>
+    <script>
+        var vm = new Vue({
+            el:"#box",  //element
+            data:{
+                myname: "ZJ", //状态
+                age:18
+            }
+        })
+    </script>
+</body>
+</html>

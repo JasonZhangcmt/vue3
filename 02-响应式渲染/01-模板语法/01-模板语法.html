@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/vue.js"></script>
+    <style>
+        .red {
+            background-color: red;
+        }
+        .yellow {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        {{myname}}
+        <!-- 绑定事件的指令 v-on: -->
+        <!-- <button v-on:click="handleClick()">change</button> -->
+        <button @click="handleClick()">change</button>
+        <!-- 指令v-show  -->
+        <div v-show="isShow">动态隐藏和显示</div>
+
+        <!-- 指令v-if -->
+        <div v-if="isCreated">动态创建和删除</div>
+
+        <!-- 动态切换背景色 -->
+        <!-- v-bind: 将普通属性变成vue地盘 -- 动态绑定 class,style,src,alt,都可以动态绑定-->
+        <!-- <div v-bind:class="isActive?'red':'yellow'">动态切换背景色</div> -->
+        <div :class="isActive?'red':'yellow'">动态切换背景色</div>
+
+        <!-- 指令 v-for遍历数组的指令 -->
+        <ul>
+            <li v-for="(item,index) in datalist">{{item}}--{{index}}</li>
+        </ul>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: "#box",
+            data: {
+                myname: "kerwin",
+                isShow: true,
+                isCreated: true,
+                isActive: true,
+                datalist: ["aaa","bbb","cccc","dddd","rrrr"]
+            },
+            methods: {
+                handleClick(){
+                    console.log("click");
+                    this.myname = "ZJ"
+                    this.isShow = !this.isShow
+                    this.isCreated = !this.isCreated
+                    this.isActive = !this.isActive
+                }
+            }
+        })
+    </script>
+</body>
+</html>

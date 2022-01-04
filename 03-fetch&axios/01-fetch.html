@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        <button @click="handleClick()">123</button>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: "#box",
+            data: {
+
+            },
+            methods: {
+                handleClick() {
+                    // get
+                    // 后端只有一种接收方式解析-- ?id=10 带参数
+                    fetch("./json/test.json")
+                        .then(res => res.json())
+                        .then(res => {
+                            console.log(res)
+                        })
+                    // res.text转·换成字符串 res.json转化成JSON对象
+
+
+                    // post-1 
+                    // 后端以form表单编码的格式解析接收 application/x‐www‐form‐urlencoded
+                    // 传过来的数据放于 请求体中 body: "name=kerwin&age=100",
+                    fetch("https://m.vip.com/server.html?rpc&method=pageCache&f=www&_=1563946036520", {
+                        method: 'post',
+                        //必写的请求头 -- 
+                        headers: {
+                            "Content‐Type": "application/x‐www‐form‐urlencoded"
+                        },
+                        body: "name=kerwin&age=100",
+                        credentials: "include"  //credentials: "include" 表示带cookie值，传给后端
+                    }).then(res => res.json()).then(res => { console.log(res) });
+
+                    // post-2 
+                    // 后端以json字符串的格式解析接收 application/json
+                    // 传过来的数据放于 请求体中 body: JSON.stringify({})
+                    fetch("https://m.vip.com/server.html?rpc&method=pageCache&f=www&_=1563946036520", {
+                        method: 'post',
+                        headers: {
+                            "Content‐Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            name: "kerin",
+                            age: 100
+                        })
+                    }).then(res => res.json()).then(res => { console.log(res) });
+
+                }
+
+            },
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Examples</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <link rel="stylesheet" href="lib/swiper/css/swiper.css">
+    <script src="lib/swiper/js/swiper.js"></script>
+
+    <style>
+        .zjzj {
+            width: 500px;
+            height: 300px;
+            background-color: pink
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="swiper-container zjzj">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">Slide 1111111111</div>
+            <div class="swiper-slide">Slide 2222222222</div>
+            <div class="swiper-slide">Slide 3333333333</div>
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+
+    </div>
+
+    <script>
+        // 初始化dom结构
+        new Swiper(".zjzj", {
+            loop: true,                //循环
+            // direction: "vertical",  //垂直
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            pagination: {
+                el: ".swiper-pagination",
+            },
+
+
+        })
+    </script>
+</body>
+
+</html>

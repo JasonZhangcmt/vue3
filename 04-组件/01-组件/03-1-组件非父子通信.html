@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        <child1></child1>
+        <child2></child2>
+    </div>
+    
+    <script>
+        var bus = new Vue() // 空的vue实例 -- bus -- 中央事件总线
+        // bus.on 监听  bus.emit触发
+        Vue.component("child1", {
+            template: `
+            <div>child1<button @click="handleClick()">详细信息</button></div>
+        `,
+            methods: {
+                handleClick() {
+                    bus.$emit("ZJ", "触发ZJ事件")
+                }
+            }
+        })
+
+        Vue.component("child2", {
+            template: `
+            <div>child2-订阅者</div>
+        `,
+            // 订阅者  在页面启动完之后立即成为订阅者 在内部订阅
+            // 生命周期函数: mounted(){} 会自己触发--dom创建完之后就会触发
+            // mounted已经挂载的 -- 
+            mounted() {
+                console.log("mounted-生命周期-dom创建完之后就会触发--在这里监听ZJ事件")
+                // 监听ZJ事件
+                bus.$on("ZJ", (data) => {
+                    console.log("订阅者的组件child2----", data)
+                })
+            }
+        })
+
+        new Vue({
+            el: "#box",
+            data: {
+
+            },
+            methods: {
+
+            }
+        })
+    </script>
+
+</body>
+
+</html>
