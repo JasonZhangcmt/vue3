@@ -1,5 +1,5 @@
 <script>
-import { User, View } from '@element-plus/icons'
+// import { User, View } from '@element-plus/icons'
 export default {
   name: 'login',
   data() {
@@ -52,14 +52,14 @@ export default {
     //     console.log(res)
     //   })
   },
-  computed: {
-    userIcon() {
-      return User
-    },
-    viewIcon() {
-      return View
-    },
-  },
+  // computed: {
+  //   userIcon() {
+  //     return User
+  //   },
+  //   viewIcon() {
+  //     return View
+  //   },
+  // },
 }
 </script>
 
@@ -72,14 +72,14 @@ export default {
           <!-- 计算属性 @element-plus/icons-vue 图标的使用-->
           <el-input
             type="text"
-            :prefix-icon="userIcon"
+            prefix-icon="el-icon-user"
             v-model="user.userName"
           ></el-input>
         </el-form-item>
         <el-form-item prop="userPwd">
           <el-input
             type="password"
-            :prefix-icon="viewIcon"
+            prefix-icon="el-icon-view"
             v-model="user.userPwd"
           ></el-input>
         </el-form-item>

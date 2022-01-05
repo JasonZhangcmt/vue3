@@ -24,7 +24,7 @@
   justify-content: center;
   align-items: center;
   height: 100%;
-  // background-color: #f1e6eb;
+  background-color: #fff;
   .content {
     position: relative;
     bottom: 40px;

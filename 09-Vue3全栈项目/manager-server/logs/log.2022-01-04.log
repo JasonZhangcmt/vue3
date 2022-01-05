@@ -1,0 +1,83 @@
+[2022-01-04T20:49:16.372] [ERROR] error - TypeError: Cannot read properties of undefined (reading 'split')
+    at D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\app.js:61:51
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-compose\index.js:44:32)
+    at next (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-compose\index.js:45:18)
+    at D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-router\lib\router.js:346:16
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-compose\index.js:44:32)
+    at D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-compose\index.js:36:12
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-router\lib\router.js:351:31)
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa\node_modules\koa-compose\index.js:42:32)
+    at D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\app.js:52:9
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa\node_modules\koa-compose\index.js:42:32)
+    at views (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-views\src\index.js:91:12)
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa\node_modules\koa-compose\index.js:42:32)
+    at serve (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-static\index.js:53:15)
+    at async bodyParser (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-bodyparser\index.js:95:5)
+[2022-01-04T20:50:27.720] [ERROR] error - JsonWebTokenError: invalid signature
+    at D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\jsonwebtoken\verify.js:133:19
+    at getSecret (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\jsonwebtoken\verify.js:90:14)
+    at Object.module.exports [as verify] (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\jsonwebtoken\verify.js:94:10)
+    at D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\app.js:64:23
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-compose\index.js:44:32)
+    at next (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-compose\index.js:45:18)
+    at D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-router\lib\router.js:346:16
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-compose\index.js:44:32)
+    at D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-compose\index.js:36:12
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-router\lib\router.js:351:31)
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa\node_modules\koa-compose\index.js:42:32)
+    at D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\app.js:52:9
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa\node_modules\koa-compose\index.js:42:32)
+    at views (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-views\src\index.js:91:12)
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa\node_modules\koa-compose\index.js:42:32)
+    at serve (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-static\index.js:53:15)
+[2022-01-04T20:50:51.982] [ERROR] error - TokenExpiredError: jwt expired
+    at D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\jsonwebtoken\verify.js:152:21
+    at getSecret (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\jsonwebtoken\verify.js:90:14)
+    at Object.module.exports [as verify] (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\jsonwebtoken\verify.js:94:10)
+    at D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\app.js:64:23
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-compose\index.js:44:32)
+    at next (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-compose\index.js:45:18)
+    at D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-router\lib\router.js:346:16
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-compose\index.js:44:32)
+    at D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-compose\index.js:36:12
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-router\lib\router.js:351:31)
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa\node_modules\koa-compose\index.js:42:32)
+    at D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\app.js:52:9
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa\node_modules\koa-compose\index.js:42:32)
+    at views (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-views\src\index.js:91:12)
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa\node_modules\koa-compose\index.js:42:32)
+    at serve (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-static\index.js:53:15)
+[2022-01-04T20:50:54.059] [ERROR] error - TokenExpiredError: jwt expired
+    at D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\jsonwebtoken\verify.js:152:21
+    at getSecret (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\jsonwebtoken\verify.js:90:14)
+    at Object.module.exports [as verify] (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\jsonwebtoken\verify.js:94:10)
+    at D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\app.js:64:23
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-compose\index.js:44:32)
+    at next (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-compose\index.js:45:18)
+    at D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-router\lib\router.js:346:16
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-compose\index.js:44:32)
+    at D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-compose\index.js:36:12
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-router\lib\router.js:351:31)
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa\node_modules\koa-compose\index.js:42:32)
+    at D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\app.js:52:9
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa\node_modules\koa-compose\index.js:42:32)
+    at views (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-views\src\index.js:91:12)
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa\node_modules\koa-compose\index.js:42:32)
+    at serve (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-static\index.js:53:15)
+[2022-01-04T20:52:56.446] [ERROR] error - TokenExpiredError: jwt expired
+    at D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\jsonwebtoken\verify.js:152:21
+    at getSecret (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\jsonwebtoken\verify.js:90:14)
+    at Object.module.exports [as verify] (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\jsonwebtoken\verify.js:94:10)
+    at D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\app.js:64:23
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-compose\index.js:44:32)
+    at next (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-compose\index.js:45:18)
+    at D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-router\lib\router.js:346:16
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-compose\index.js:44:32)
+    at D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-compose\index.js:36:12
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-router\lib\router.js:351:31)
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa\node_modules\koa-compose\index.js:42:32)
+    at D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\app.js:52:9
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa\node_modules\koa-compose\index.js:42:32)
+    at views (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-views\src\index.js:91:12)
+    at dispatch (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa\node_modules\koa-compose\index.js:42:32)
+    at serve (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-static\index.js:53:15)

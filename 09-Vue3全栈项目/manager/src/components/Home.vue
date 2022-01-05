@@ -11,7 +11,7 @@ export default {
     bell: Bell,
     arrowDown: ArrowDown,
     TreeMenu,
-    Breadcrumb
+    Breadcrumb,
   },
   data() {
     return {
@@ -110,9 +110,9 @@ export default {
         </div>
       </div>
       <div class="wrapper">
-        <div class="main-page">
+        <!-- <div class="main-page"> -->
           <router-view></router-view>
-        </div>
+        <!-- </div> -->
       </div>
     </div>
     <!-- <h1>学习vue3全栈管理系统</h1> -->

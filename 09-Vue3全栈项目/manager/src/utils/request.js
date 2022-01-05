@@ -6,6 +6,8 @@ import { ElMessage } from 'element-plus'
 
 import router from '../router'
 
+import storage from './storage' // Token 验证
+
 const TOKEN_ERROR = 'Token认证失败,请重新登陆'
 const NETWORK_ERROR = '网络请求异常,请稍后重试一下...'
 
@@ -19,8 +21,9 @@ const service = axios.create({
 service.interceptors.request.use((req) => {
   // 一些公共的请求机制--JWT Token验证机制
   const header = req.headers
-
-  if (!header.Authorization) header.Authorization = 'Jason'
+  const { token } = storage.getItem('userInfo') // Token 验证
+  // 第一次登录时 获取不到 token
+  if (!header.Authorization) header.Authorization = 'Jason ' + token // Token 验证
   return req
 })
 
@@ -32,9 +35,9 @@ service.interceptors.response.use((res) => {
     return data
   } else if (code === 50001) {
     ElMessage.error(TOKEN_ERROR)
-    setTimeout(() => {
-      router.push('/login')
-    }, 1500)
+    // setTimeout(() => {
+    //   router.push('/login') // 未登录 或登录token失效导致 TOKEN_ERROR 返回登录页面
+    // }, 1500)
     return Promise.reject(TOKEN_ERROR)
   } else {
     ElMessage.error(msg || NETWORK_ERROR)

@@ -22,7 +22,8 @@ const EnvConfig = {
 
 export default {
   env,
-  mock: true, // mock的开关
+  // mock: true, // mock的开关
+  mock: false, // mock的开关
   ...EnvConfig[env], // 扩展运算
   namespace: 'manage' // 命名空间 localStorage封装
 }
