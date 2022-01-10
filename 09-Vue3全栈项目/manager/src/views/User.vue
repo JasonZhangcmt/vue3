@@ -1,5 +1,6 @@
 <template>
   <div class="user-manage">
+    <!-- 上方查询/重置表单 -->
     <div class="query-form">
       <!-- :inline="true" 表单横向/纵向排列(默认) -->
       <!-- :model="user" 通过user对象 便于双向绑定 -->
@@ -31,18 +32,22 @@
         </el-form-item>
       </el-form>
     </div>
+    <!-- 下方展示用户信息table -->
     <div class="base-table">
+      <!-- table上方 新增/删除按钮 -->
       <div class="action">
         <el-button type="primary" @click="handleCreate">新增</el-button>
         <el-button type="danger" @click="handlePatchDelete">批量删除</el-button>
       </div>
-      <!-- @selection-change="handleSelectionChange" 批量删除操作 -->
+      <!-- table下方 table主题内容 -->
+      <!-- @selection-change="handleSelectionChange" 为批量删除操作传当前项目的userId -->
       <el-table
         :data="userList.arr"
         style="width: 100%"
         @selection-change="handleSelectionChange"
       >
-        <el-table-column type="selection" width="55"> </el-table-column>
+        <el-table-column type="selection" width="55"></el-table-column>
+        <!-- :prop="item.prop" 表单验证、重置表单 -->
         <el-table-column
           v-for="item in columns"
           :key="item.prop"
@@ -52,17 +57,31 @@
           :formatter="item.formatter"
         >
         </el-table-column>
-        <el-table-column label="操作" width="150">
+        <el-table-column label="操作" width="240">
+          <!-- #default="scope" 传递参数 scope.row -->
           <template #default="scope">
+            <el-popover effect="light" trigger="hover" placement="top">
+              <template #default>
+                <p>姓名: {{ scope.row.userName }}</p>
+                <p>用户角色: {{ showRole(scope.row.role) }}</p>
+                <p>电话: {{ scope.row.mobile }}</p>
+                <p>职位: {{ scope.row.job }}</p>
+              </template>
+              <template #reference>
+                <template class="name-wrapper">
+                  <el-button type="info" size="mini">详情</el-button>
+                </template>
+              </template>
+            </el-popover>
             <el-button
-              @click.prevent="deleteRow(scope.$index, tableData)"
+              @click.prevent="handleEdit(scope.row)"
               type="primary"
               size="mini"
             >
               编辑
             </el-button>
             <el-button
-              @click.prevent="handledDelete(scope.$index, tableData)"
+              @click.prevent="handleDelete(scope.row)"
               type="danger"
               size="mini"
             >
@@ -71,6 +90,7 @@
           </template>
         </el-table-column>
       </el-table>
+      <!-- 分页器 -->
       <el-pagination
         class="pagination"
         background
@@ -83,6 +103,8 @@
       >
       </el-pagination>
     </div>
+
+    <!-- 点击新增显示模态框 Modal -->
     <el-dialog title="用户新增" v-model="showModal">
       <el-form
         :model="userForm"
@@ -94,10 +116,16 @@
           <el-input
             placeholder="请输入用户名"
             v-model="userForm.userName"
+            :disabled="action == 'edit'"
           ></el-input>
+          <!-- :disabled="action=='edit'" 判断当前是否是修改操作-禁止修改 -->
         </el-form-item>
         <el-form-item prop="userEmail" label="邮箱">
-          <el-input placeholder="请输入邮箱" v-model="userForm.userEmail">
+          <el-input
+            placeholder="请输入邮箱"
+            v-model="userForm.userEmail"
+            :disabled="action == 'edit'"
+          >
             <template #append> @qq.com </template>
           </el-input>
         </el-form-item>
@@ -155,6 +183,7 @@
 </template>
 <script>
 import { onMounted, reactive, ref, getCurrentInstance, toRaw } from 'vue'
+import utils from '../utils/utils.js'
 export default {
   name: 'User',
   // Vue3
@@ -191,18 +220,22 @@ export default {
       {
         label: '用户ID',
         prop: 'userId',
+        // width: '100px',
       },
       {
         label: '用户名',
         prop: 'userName',
+        // width: '100px',
       },
       {
         label: '用户邮箱',
         prop: 'userEmail',
+        // width: '200px',
       },
       {
         label: '用户角色',
         prop: 'role',
+        width: '100px',
         formatter(row, column, value) {
           // 格式化列表中的内容 数字-->指定文本
           return {
@@ -214,6 +247,7 @@ export default {
       {
         label: '用户状态',
         prop: 'state',
+        width: '100px',
         formatter(row, column, value) {
           // 格式化列表中的内容 数字-->指定文本
           return {
@@ -226,10 +260,20 @@ export default {
       {
         label: '注册时间',
         prop: 'createTime',
+        width: '120px',
+        formatter(row, column, value) {
+          // 格式化列表中的日期
+          return utils.formateDate(new Date(value),'yyyy年MM月dd日 hh:mm:ss')
+        },
       },
       {
         label: '最后登录时间',
         prop: 'lastLoginTime',
+        width: '120px',
+        formatter(row, column, value) {
+          // 格式化列表中的日期
+          return utils.formateDate(new Date(value),'yyyy年MM月dd日 hh:mm:ss')
+        },
       },
     ])
 
@@ -246,6 +290,7 @@ export default {
       const { page, list } = await proxy.$api.userList(params)
       pager.total = page.total // 分页数量
       userList.arr = list
+      console.log('用户信息:', userList.arr[0])
     }
     // 查找功能 --
     const handleQuery = () => {
@@ -267,7 +312,9 @@ export default {
       getUserList()
     }
     // 用户单个删除
-    const handledDelete = async (row) => {
+    const handleDelete = async (row) => {
+      console.log('删除单项', row)
+      console.log('删除单项Id:', row.userId)
       const res = await proxy.$api.userDelete({
         userIds: [row.userId],
       })
@@ -297,6 +344,7 @@ export default {
       }
     }
     const handleSelectionChange = (list) => {
+      // console.log(list)
       let arr = []
       list.forEach((element) => {
         arr.push(element.userId)
@@ -305,10 +353,12 @@ export default {
     }
     // 用户新增
     const showModal = ref(false)
-    const userForm = reactive({ // reactive 这里的定义必须是reactive??不能是ref
+    const userForm = reactive({
+      // reactive 这里的定义必须是reactive??不能是ref
       state: 1, // 默认的状态为1：在职
     })
     const handleCreate = () => {
+      action.value = 'add'
       showModal.value = true
     }
     // 表单验证规则
@@ -358,6 +408,7 @@ export default {
       showModal.value = false
       handleReset('dialogForm')
     }
+    // 修改
     const action = ref('add')
     const handleSubmit = () => {
       proxy.$refs.dialogForm.validate(async (valid) => {
@@ -377,6 +428,29 @@ export default {
         }
       })
     }
+    const handleEdit = (row) => {
+      action.value = 'edit'
+      showModal.value = true
+      // proxy.$nextTick(() =>{} 回调函数--页面完全渲染完成后
+      proxy.$nextTick(() => {
+        // row.role = showRole(row.role)
+        // console.log(row)
+        Object.assign(userForm, row)
+      })
+    }
+    const showRole = (role) => {
+      if (role == '0') {
+        return '管理员'
+      }
+      return '普通用户'
+    }
+    const showState = (state) => {
+      if (state == '1') {
+        return '在职'
+      } else if (state == '2') {
+        return '离职'
+      } else return '试用期'
+    }
     return {
       user,
       userList,
@@ -387,7 +461,7 @@ export default {
       pager,
       handleCurrentChange,
       handleSizeChange,
-      handledDelete,
+      handleDelete,
       handlePatchDelete,
       handleSelectionChange,
       showModal,
@@ -400,6 +474,9 @@ export default {
       handleClose,
       handleSubmit,
       action,
+      handleEdit,
+      showRole,
+      showState
     }
   },
 }

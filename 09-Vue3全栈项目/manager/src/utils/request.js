@@ -21,9 +21,10 @@ const service = axios.create({
 service.interceptors.request.use((req) => {
   // 一些公共的请求机制--JWT Token验证机制
   const header = req.headers
-  const { token } = storage.getItem('userInfo') // Token 验证
-  // 第一次登录时 获取不到 token
-  if (!header.Authorization) header.Authorization = 'Jason ' + token // Token 验证
+  // 第一次登录时 获取不到 token -- 第一次初始为空
+  const { token = '' } = storage.getItem('userInfo') || {} // Token 验证 
+  // 'Bearer ' + token // 这里Bearer 不能写错 不能更改 代表令牌
+  if (!header.Authorization) header.Authorization = 'Bearer ' + token // Token 验证
   return req
 })
 
@@ -35,9 +36,9 @@ service.interceptors.response.use((res) => {
     return data
   } else if (code === 50001) {
     ElMessage.error(TOKEN_ERROR)
-    // setTimeout(() => {
-    //   router.push('/login') // 未登录 或登录token失效导致 TOKEN_ERROR 返回登录页面
-    // }, 1500)
+    setTimeout(() => {
+      router.push('/login') // 未登录 或登录token失效导致 TOKEN_ERROR 返回登录页面
+    }, 1500)
     return Promise.reject(TOKEN_ERROR)
   } else {
     ElMessage.error(msg || NETWORK_ERROR)

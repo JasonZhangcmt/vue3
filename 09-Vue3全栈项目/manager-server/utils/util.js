@@ -21,7 +21,8 @@ module.exports = {
    * @param {number} pageNum
    * @param {number} pageSize 
    */
-  pager(pageNum = 1, pageSize = 10) {
+  // 结构 {pageNum = 1, pageSize = 10}
+  pager({ pageNum = 1, pageSize = 10 }) {
     pageNum *= 1 // 隐式转换number类型
     pageSize *= 1 // 隐式转换number类型
     const skipIndex = (pageNum - 1) * pageSize
@@ -42,7 +43,7 @@ module.exports = {
       msg
     }
   },
-  fail (msg = '', code = CODE.BUSINESS_ERROR, data) {
+  fail(msg = '', code = CODE.BUSINESS_ERROR, data) {
     // 请求失败
     log4js.debug(msg)
     return {

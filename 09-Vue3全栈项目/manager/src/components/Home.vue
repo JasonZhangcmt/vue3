@@ -48,8 +48,16 @@ export default {
     },
     async getMenuList() {
       const res = await this.$api.menuList()
-      console.log(res)
+      console.log('用户的userMenu-传给TreeMenu组件渲染侧边栏菜单:', res)
       this.userMenu = res
+    },
+    handleOpen(key, keyPath) {
+      // index: 需要打开的 sub-menu 的 index
+      console.log(key, keyPath)
+    },
+    handleClose(key, keyPath) {
+      // index: 需要收起的 sub-menu 的 index
+      console.log(key, keyPath)
     },
   },
 }
@@ -57,34 +65,52 @@ export default {
 
 <template>
   <div class="basic-layout">
+    <!-- 侧边栏 可收缩 -->
+    <!-- :class 根据收缩动态绑定class -->
     <div :class="['nav-side', isCollapse ? 'fold' : 'unfold']">
       <div class="logo">
         <img src="./../assets/logo.png" alt="" class="src" />
         <span>Manager</span>
       </div>
-
-      <!-- 菜单部分 -->
-      <!-- router 可以在路由后面自动 push index的值 -->
+      <!-- 侧边栏 菜单部分 -->
+      <!-- :collapse="isCollapse" 控制侧边栏收缩 -->
+      <!-- router ElementPlus-Menu 属性 -->
+      <!-- router	是否使用 vue-router 的模式，启用该模式会在激活导航时以 index 作为 path 进行路由跳转 -->
+      <!-- :unique-opened="true" E-Menu属性 是否只保持一个子菜单的展开 -->
+      <!-- :collapse-transition="true" E-Menu属性 开启折叠动画(内部文字显示动画) -->
+      <!-- mode="vertical" E-Menu属性 菜单展开方式(horizontal / vertical) -->
+      <!-- @open="handleOpen" E-Menu方法 展开指定的sub-menu index: 需要打开的 sub-menu 的 index -->
       <el-menu
-        default-active="2"
         class="nav-menu"
         background-color="#001529"
         text-color="#fff"
         :collapse="isCollapse"
         router
+        :unique-opened="false"
+        :collapse-transition="true"
+        mode="vertical"
+        @open="handleOpen"
+        @close="handleClose"
       >
+      <!-- @open="handleOpen" @close="handleClose" 在tree-menu中触发(一级菜单-系统管理触发) -->
+        <!-- 自定义<tree-menu :userMenu="userMenu">组件 -->
+        <!-- 将获取到的用户菜单权限List 渲染成菜单 -->
         <tree-menu :userMenu="userMenu"></tree-menu>
       </el-menu>
     </div>
 
+    <!-- 右边栏 主题内容 -->
     <div :class="['content-right', isCollapse ? 'fold' : 'unfold']">
+      <!-- 右边栏-上栏 顶部导航 -->
       <div class="nav-top">
+        <!-- 右边栏-上栏-顶部导航-左侧 收缩按钮+面包屑组件 -->
         <div class="nav-left">
           <fold class="menu-fold" @click="toggle"></fold>
           <div class="bread">
             <breadcrumb></breadcrumb>
           </div>
         </div>
+        <!-- 右边栏-上栏-顶部导航-右侧 登录用户的个人信息+消息提示+登出 -->
         <div class="user-info">
           <el-badge :is-dot="noticeCount > 0 ? true : false" class="user-badge">
             <el-icon class="el-icon-bell">
@@ -109,14 +135,12 @@ export default {
           </el-dropdown>
         </div>
       </div>
+      <!-- 右边栏-下栏-主题内容 展示数据+操作(侧边栏点击后<router-view>动态展示组件) -->
       <div class="wrapper">
-        <!-- <div class="main-page"> -->
-          <router-view></router-view>
-        <!-- </div> -->
+        <!-- 根据路由 这里默认打开欢迎页面 Welcome.vue -->
+        <router-view></router-view>
       </div>
     </div>
-    <!-- <h1>学习vue3全栈管理系统</h1> -->
-    <!-- <router-view></router-view> -->
   </div>
 </template>
 
@@ -130,7 +154,7 @@ export default {
     background-color: #001529;
     color: #fff;
     // overflow-y: auto; // 超出滚动条
-    transition: width 0.5s; // 收缩的过渡效果
+    transition: width 0.2s; // 收缩的过渡效果
     .logo {
       display: flex;
       align-items: center;

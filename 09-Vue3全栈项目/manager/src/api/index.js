@@ -6,6 +6,7 @@ export default {
       method: 'post',
       data: param,
       // mock: true, // 是否使用mock
+      mock: false, // 是否使用mock
     })
   },
   noticeCount() {
@@ -28,8 +29,9 @@ export default {
     return request({
       url: '/users/list',
       method: 'get',
+      // mock: true, // 是否使用mock
+      mock: false, // 是否使用mock
       data: params,
-      mock: true, // 是否使用mock
     })
   },
   userDelete(params) {

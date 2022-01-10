@@ -32,7 +32,7 @@ app.use(router)  // 路由 引入
 app.use(store) // 用户账号 本地存储 全局vuex
 app.mount('#app')
 
-// console.log("环境变量", import.meta.env)
+console.log("main.js打印环境变量:", import.meta.env)
 
 app.config.globalProperties.$request = request // axios封装 全局注册
 app.config.globalProperties.$storage = storage // localStorage封装 全局注册

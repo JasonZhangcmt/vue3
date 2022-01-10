@@ -3,6 +3,7 @@ const User = require('../models/userSchema')
 const utils = require('../utils/util')
 
 const jwt = require('jsonwebtoken') // jwt验证
+const util = require('../utils/util')
 
 router.prefix('/users')
 
@@ -45,4 +46,33 @@ router.post('/login', async (ctx) => {
   }
 },
 )
+
+router.get('/list', async (ctx) => {
+  const { userId, userName, state } = ctx.request.query
+  const { page, skipIndex } = util.pager(ctx.request.query)
+
+  let params = {}
+  if (userId) params.userId = userId
+  if (userName) params.userName = userName
+  if (state && state != '0') params.state = state
+
+  try {
+    const query = User.find(params, { _id: 0, userPwd: 0 })
+    const list = await query.skip(skipIndex).limit(page.pageSize)
+    const total = await User.countDocuments(params)
+
+    ctx.body = util.success({
+      page: {
+        ...page,
+        total
+      },
+      list
+    })
+
+  } catch (err) {
+    ctx.body = util.fail(`查询异常${err.stack}`)
+  }
+
+})
+
 module.exports = router
