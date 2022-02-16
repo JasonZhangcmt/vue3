@@ -29,4 +29,5 @@ const userSchema = mongoose.Schema({
   remark: String // 备用字段
 })
 
-module.exports = mongoose.model('users', userSchema, 'users')
+// 导出
+module.exports = mongoose.model('user', userSchema, 'users')

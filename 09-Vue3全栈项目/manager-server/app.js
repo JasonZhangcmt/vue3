@@ -10,13 +10,20 @@ const koajwt = require('koa-jwt') // koa-jwt 中间件
 // const log4js = require("log4js");
 
 
-const log4js = require("./utils/log4j")
+const log4js = require("./utils/log4j") // 引入 log4js 打印日志
 const util = require('./utils/util')
 
 
 // const index = require('./routes/index')
-const users = require('./routes/users')
 const router = require('koa-router')() // 登录前后端
+
+// **********
+const users = require('./routes/users')
+const menus = require('./routes/menus')
+const roles = require('./routes/roles')
+const depts = require('./routes/depts')
+const leaves = require('./routes/leaves')
+
 
 // error handler
 onerror(app)
@@ -77,7 +84,14 @@ router.get('/leave/count', (ctx) => {
   ctx.body = payload
 })
 
+// **********
 router.use(users.routes()), users.allowedMethods()
+router.use(menus.routes()), menus.allowedMethods()
+router.use(roles.routes()), roles.allowedMethods()
+router.use(depts.routes()), depts.allowedMethods()
+router.use(leaves.routes()), leaves.allowedMethods()
+
+
 app.use(router.routes(), users.allowedMethods())
 
 // routes

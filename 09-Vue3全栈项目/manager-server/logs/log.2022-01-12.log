@@ -1,0 +1,6 @@
+[2022-01-12T22:37:54.386] [ERROR] error - TypeError: ctx.fail is not a function
+    at D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\routes\users.js:106:11
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\app.js:55:3
+    at async serve (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-static\index.js:53:9)
+    at async bodyParser (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-bodyparser\index.js:95:5)

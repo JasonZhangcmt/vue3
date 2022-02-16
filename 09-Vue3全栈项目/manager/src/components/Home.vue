@@ -1,12 +1,10 @@
 <script>
-import { Setting, Check, Fold, Bell, ArrowDown } from '@element-plus/icons'
+import { Fold, Bell, ArrowDown } from '@element-plus/icons'
 import TreeMenu from './TreeMenu.vue'
 import Breadcrumb from './Breadcrumb.vue'
 export default {
   name: 'home',
   components: {
-    // setting: Setting,
-    // check: Check,
     fold: Fold,
     bell: Bell,
     arrowDown: ArrowDown,
@@ -20,7 +18,7 @@ export default {
       //   userEmail: 'jason@gmail.com',
       // },
       userInfo: this.$store.state.userInfo,
-      isCollapse: false,
+      isCollapse: false, // 判断菜单收缩
       noticeCount: 0,
       userMenu: [],
     }
@@ -33,9 +31,9 @@ export default {
     handleLogout(e) {
       // 监控 下拉菜单的点击事件
       console.log(e)
-      if (e == 'email') return
+      if (e == 'email') return // 下拉点击事件，email不操作，否则退出登录并返回登录页
       this.$store.commit('saveUserInfo', '')
-      this.userInfo = null
+      this.userInfo = {}
       this.$router.push('/login')
     },
     toggle() {
@@ -47,9 +45,12 @@ export default {
       this.noticeCount = res
     },
     async getMenuList() {
-      const res = await this.$api.menuList()
-      console.log('用户的userMenu-传给TreeMenu组件渲染侧边栏菜单:', res)
-      this.userMenu = res
+      // const res = await this.$api.permissionList()
+      // console.log('用户的userMenu-传给TreeMenu组件渲染侧边栏菜单:', res)
+      const { actionList, menuList } = await this.$api.permissionList()
+      this.userMenu = menuList
+      this.$store.commit('saveMenuList', menuList)
+      this.$store.commit('saveActionList', actionList)
     },
     handleOpen(key, keyPath) {
       // index: 需要打开的 sub-menu 的 index
@@ -65,12 +66,12 @@ export default {
 
 <template>
   <div class="basic-layout">
-    <!-- 侧边栏 可收缩 -->
+    <!-- 侧边栏 收缩 isCollapse -->
     <!-- :class 根据收缩动态绑定class -->
     <div :class="['nav-side', isCollapse ? 'fold' : 'unfold']">
       <div class="logo">
-        <img src="./../assets/logo.png" alt="" class="src" />
-        <span>Manager</span>
+        <img src="./../assets/logo.png" class="src" />
+        <span v-if="!isCollapse">Manager</span>
       </div>
       <!-- 侧边栏 菜单部分 -->
       <!-- :collapse="isCollapse" 控制侧边栏收缩 -->
@@ -92,50 +93,66 @@ export default {
         @open="handleOpen"
         @close="handleClose"
       >
-      <!-- @open="handleOpen" @close="handleClose" 在tree-menu中触发(一级菜单-系统管理触发) -->
+        <!-- @open="handleOpen" @close="handleClose" 在tree-menu中触发(一级菜单-系统管理触发) -->
         <!-- 自定义<tree-menu :userMenu="userMenu">组件 -->
         <!-- 将获取到的用户菜单权限List 渲染成菜单 -->
         <tree-menu :userMenu="userMenu"></tree-menu>
       </el-menu>
     </div>
 
-    <!-- 右边栏 主题内容 -->
+    <!-- 右边栏 主体内容 -->
     <div :class="['content-right', isCollapse ? 'fold' : 'unfold']">
       <!-- 右边栏-上栏 顶部导航 -->
       <div class="nav-top">
         <!-- 右边栏-上栏-顶部导航-左侧 收缩按钮+面包屑组件 -->
         <div class="nav-left">
           <fold class="menu-fold" @click="toggle"></fold>
+          <!-- 自定义面包屑组件 -->
+          <!-- 点击 侧边栏 菜单部分 会push更改路由 面包屑目的：取出当前路由的title展示 -->
           <div class="bread">
             <breadcrumb></breadcrumb>
           </div>
         </div>
         <!-- 右边栏-上栏-顶部导航-右侧 登录用户的个人信息+消息提示+登出 -->
         <div class="user-info">
+          <!-- <el-badge/> 出现在按钮、图标旁的数字或状态标记 -->
+          <!-- :is-dot	小圆点提示 -->
           <el-badge :is-dot="noticeCount > 0 ? true : false" class="user-badge">
-            <el-icon class="el-icon-bell">
-              <!-- <bell></bell> -->
-            </el-icon>
+            <el-icon class="el-icon-bell"> </el-icon>
           </el-badge>
-          <!--  @command="handleLogout" 点击菜单触发的事件回调 -->
-          <el-dropdown @command="handleLogout">
+          <!-- <el-dropdown/> 下拉菜单 可以配置 click 激活或者 hover 激活 -->
+          <!-- @command="handleLogout" 点击菜单触发的事件回调 下方<el-dropdown-item command="email">点击时的参数就是email -->
+          <!-- split-button  -->
+          <!-- trigger 触发下拉的行为 hover, click, contextmenu -->
+          <el-dropdown
+            split-button
+            size="mini"
+            trigger="hover"
+            @command="handleLogout"
+          >
             <span class="user-link">
               {{ userInfo.userName }}
-              <!-- <el-icon class="el-icon-right">
-              </el-icon> -->
             </span>
+
+            <!-- Dropdown Slots -->
+            <!-- 下拉列表，通常是 <el-dropdown-menu> 组件 -->
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item command="email">
+                <!-- command 点击菜单项触发的事件回调 -->
+                <!-- divided 显示分割线 -->
+                <!-- icon 图标 -->
+                <el-dropdown-item command="email" icon="el-icon-monitor">
                   邮箱:{{ userInfo.userEmail }}
                 </el-dropdown-item>
-                <el-dropdown-item command="logout"> 退出 </el-dropdown-item>
+                <el-dropdown-item command="logout" divided icon="el-icon-link">
+                  退出
+                </el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
         </div>
       </div>
-      <!-- 右边栏-下栏-主题内容 展示数据+操作(侧边栏点击后<router-view>动态展示组件) -->
+      <!-- 右边栏-下栏-主体内容 展示数据+操作(侧边栏点击后<router-view>动态展示组件) -->
       <div class="wrapper">
         <!-- 根据路由 这里默认打开欢迎页面 Welcome.vue -->
         <router-view></router-view>
@@ -193,7 +210,7 @@ export default {
       border-bottom: 1px solid #ddd;
       padding: 0 20px;
       .nav-left {
-        z-index: 10;
+        // z-index: 10;
         display: flex;
         align-items: center;
         .menu-fold {

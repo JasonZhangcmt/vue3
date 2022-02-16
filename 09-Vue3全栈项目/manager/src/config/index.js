@@ -1,5 +1,5 @@
 // 环境配置的封装
-
+// console.log("main.js打印环境变量:", import.meta.env)
 const env = import.meta.env.MODE || 'prod'
 
 const EnvConfig = {

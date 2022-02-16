@@ -2,12 +2,19 @@
   <div class="user-manage">
     <!-- 上方查询/重置表单 -->
     <div class="query-form">
-      <!-- :inline="true" 表单横向/纵向排列(默认) -->
-      <!-- :model="user" 通过user对象 便于双向绑定 -->
-      <!-- ref="form" 重置表单用 -->
+      <!-- el-form -->
+      <!-- :inline="true" 表单横向/纵向排列(默认false) -->
+      <!-- :model="user" 表单数据对象 双向绑定 -->
+      <!-- 表单验证 只需要通过 rules 属性传入约定的验证规则，并将 Form-Item 的 prop 属性设置为需校验的字段名即可 -->
+      <!-- ref="form" 获得表单dom 执行表单方法：validate/resetFields等 proxy.$refs[form].resetFields() -->
       <!-- :rules="rules" 表单验证规则 -->
       <el-form :inline="true" :model="user" ref="form">
-        <!-- label="用户ID" prop="userId" 重置表单用 -->
+        <!-- el-form-item -->
+        <!-- prop="userId" 重置表单/验证表单用 -->
+        <!-- 可选值：传入 Form 组件的 model 中的字段 :model="user" -->
+        <!-- 表单域 model 字段，在使用 validate、resetFields 方法的情况下，该属性是必填的 -->
+        <!-- label 标签文本 -->
+        <!-- required 是否必填，如不设置，则会根据校验规则自动生成 -->
         <el-form-item label="用户ID" prop="userId">
           <el-input v-model="user.userId" placeholder="请输入用户ID"></el-input>
         </el-form-item>
@@ -28,26 +35,38 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="handleQuery">查询</el-button>
+          <!-- handleReset 传入form节点 执行表单重置方法 resetFields -->
           <el-button @click="handleReset('form')">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
-    <!-- 下方展示用户信息table -->
+    <!-- 下方 展示用户信息table -->
     <div class="base-table">
       <!-- table上方 新增/删除按钮 -->
       <div class="action">
-        <el-button type="primary" @click="handleCreate">新增</el-button>
-        <el-button type="danger" @click="handlePatchDelete">批量删除</el-button>
+        <el-button type="primary" @click="handleCreate" v-has="'user-add'">
+          新增
+        </el-button>
+        <el-button
+          type="danger"
+          @click="handlePatchDelete"
+          v-has="'user-parse-delete'"
+        >
+          批量删除
+        </el-button>
       </div>
-      <!-- table下方 table主题内容 -->
+      <!-- table下方 table主体内容 -->
       <!-- @selection-change="handleSelectionChange" 为批量删除操作传当前项目的userId -->
       <el-table
         :data="userList.arr"
         style="width: 100%"
         @selection-change="handleSelectionChange"
       >
+        <!-- type 对应列的类型。如果设置了 selection 则显示多选框 -->
+        <!-- 如果设置了 index 则显示该行的索引（从 1 开始计算）；如果设置了 expand 则显示为一个可展开的按钮 -->
         <el-table-column type="selection" width="55"></el-table-column>
         <!-- :prop="item.prop" 表单验证、重置表单 -->
+        <!-- formatter	用来格式化内容 -->
         <el-table-column
           v-for="item in columns"
           :key="item.prop"
@@ -57,9 +76,12 @@
           :formatter="item.formatter"
         >
         </el-table-column>
+
         <el-table-column label="操作" width="240">
-          <!-- #default="scope" 传递参数 scope.row -->
+          <!-- #default="scope" 传递参数 scope.row 当前行数据 -->
+          <!-- 插件-放三个按钮-查看详情、编辑、删除 -->
           <template #default="scope">
+            <!-- Popover 弹出框 -->
             <el-popover effect="light" trigger="hover" placement="top">
               <template #default>
                 <p>姓名: {{ scope.row.userName }}</p>
@@ -67,16 +89,19 @@
                 <p>电话: {{ scope.row.mobile }}</p>
                 <p>职位: {{ scope.row.job }}</p>
               </template>
+              <!-- reference ·触发 Popover 显示的 HTML 元素 -->
               <template #reference>
                 <template class="name-wrapper">
                   <el-button type="info" size="mini">详情</el-button>
                 </template>
               </template>
             </el-popover>
+            <!-- 两个功能按钮 -->
             <el-button
               @click.prevent="handleEdit(scope.row)"
               type="primary"
               size="mini"
+              v-has="'user-edit'"
             >
               编辑
             </el-button>
@@ -84,6 +109,7 @@
               @click.prevent="handleDelete(scope.row)"
               type="danger"
               size="mini"
+              v-has="'user-delete'"
             >
               删除
             </el-button>
@@ -91,6 +117,11 @@
         </el-table-column>
       </el-table>
       <!-- 分页器 -->
+      <!-- layout 组件布局，子组件名用逗号分隔 prev, pager, next, jumper -->
+      <!-- total 总条目数 -->
+      <!-- page-sizes 每页显示个数选择器的选项设置 -->
+      <!-- @size-change  pageSize 改变时会触发 -->
+      <!-- @current-change	currentPage 改变时会触发 -->
       <el-pagination
         class="pagination"
         background
@@ -104,14 +135,28 @@
       </el-pagination>
     </div>
 
-    <!-- 点击新增显示模态框 Modal -->
-    <el-dialog title="用户新增" v-model="showModal">
+    <!-- 点击新增显弹出模态框dialog -->
+    <!-- model-value / v-model是否显示 Dialog -->
+    <!-- :before-close="handleCloseDialog" 点击×号reset表单 -->
+    <el-dialog
+      title="用户新增"
+      v-model="showModal"
+      :before-close="handleCloseDialog"
+    >
+      <!-- el-form -->
+      <!-- :model="userForm" 表单数据对象 双向绑定 -->
+      <!-- 表单验证 只需要通过 rules 属性传入约定的验证规则，并将 Form-Item 的 prop 属性设置为需校验的字段名即可 -->
+      <!-- ref="dialogForm" 获得表单dom 执行表单方法：validate/resetFields等 proxy.$refs[dialogForm].resetFields() -->
+      <!-- :rules="rules" 表单验证规则 -->
       <el-form
         :model="userForm"
         ref="dialogForm"
         label-width="70px"
         :rules="rules"
       >
+        <!-- prop="userId" 重置表单/验证表单用 -->
+        <!-- 可选值：传入 Form 组件的 model 中的字段  :model="userForm" -->
+        <!-- 表单域 model 字段，在使用 validate、resetFields 方法的情况下，该属性是必填的 -->
         <el-form-item prop="userName" label="用户名">
           <el-input
             placeholder="请输入用户名"
@@ -146,6 +191,8 @@
           </el-select>
         </el-form-item>
         <el-form-item prop="roleList" label="系统角色">
+          <!-- select 选择器 -->
+          <!-- 当选项过多时，使用下拉菜单展示并选择内容 -->
           <!-- multiple style="width: 100%" 实现多选 -->
           <el-select
             v-model="userForm.roleList"
@@ -163,19 +210,25 @@
           </el-select>
         </el-form-item>
         <el-form-item prop="deptId" label="部门">
-          <!-- 级联 -->
+          <!-- cascader 级联选择器 -->
+          <!-- options可选项数据源，键名可通过 Props 属性配置 -->
+          <!-- Props -->
+          <!-- checkStrictly 是否严格的遵守父子节点不互相关联 -->
+          <!-- value 指定选项的值为选项对象的某个属性值 -->
+          <!-- label 指定选项标签为选项对象的某个属性值 -->
           <el-cascader
             v-model="userForm.deptId"
             :options="deptList"
             :props="{ checkStrictly: true, value: '_id', label: 'deptName' }"
             placeholder="请选择部门"
+            style="width: 100%"
           ></el-cascader>
         </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="handleClose">取消</el-button>
-          <el-button @click="handleSubmit" type="primary"> 确定 </el-button>
+          <el-button @click="handleSubmit" type="primary">确定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -208,7 +261,7 @@ export default {
     const age = ref(0)
     // 引用数据类型的初始化 -- 查找的数据
     const user = reactive({
-      state: 0, // 初始化为0
+      state: 1, // 初始化为0
     })
 
     // 引用数据类型的初始化 -- 用户列表
@@ -263,7 +316,7 @@ export default {
         width: '120px',
         formatter(row, column, value) {
           // 格式化列表中的日期
-          return utils.formateDate(new Date(value),'yyyy年MM月dd日 hh:mm:ss')
+          return utils.formateDate(new Date(value), 'yyyy年MM月dd日 hh:mm:ss')
         },
       },
       {
@@ -272,7 +325,7 @@ export default {
         width: '120px',
         formatter(row, column, value) {
           // 格式化列表中的日期
-          return utils.formateDate(new Date(value),'yyyy年MM月dd日 hh:mm:ss')
+          return utils.formateDate(new Date(value), 'yyyy年MM月dd日 hh:mm:ss')
         },
       },
     ])
@@ -299,6 +352,7 @@ export default {
     // 查找重置
     const handleReset = (form) => {
       // 拿到refs 将传过来的form重置
+      // resetFields	对整个表单进行重置，将所有字段值重置为初始值并移除校验结果
       proxy.$refs[form].resetFields()
     }
     // 分页点击操作
@@ -318,11 +372,11 @@ export default {
       const res = await proxy.$api.userDelete({
         userIds: [row.userId],
       })
-      if (res.nModified > 0) {
+      if (res.modifiedCount > 0) {
         proxy.$message.success('删除成功')
         getUserList()
       } else {
-        proxy.$message.success('删除失败')
+        proxy.$message.error('删除失败')
       }
     }
     // 用户批量删除
@@ -335,11 +389,11 @@ export default {
         const res = await proxy.$api.userDelete({
           userIds: checkedUsersIds.value,
         })
-        if (res.nModified > 0) {
+        if (res.modifiedCount > 0) {
           proxy.$message.success('删除成功')
           getUserList()
         } else {
-          proxy.$message.success('删除失败')
+          proxy.$message.error('删除失败')
         }
       }
     }
@@ -396,12 +450,14 @@ export default {
 
     const getRoleList = async () => {
       const res = await proxy.$api.getRoleList()
+      console.log('获取总的roleList:', res)
       roleList.value = res
     }
     // 部门
     const deptList = ref([])
     const getDeptList = async () => {
       const res = await proxy.$api.getDeptList()
+      console.log('部门总览', res)
       deptList.value = res
     }
     const handleClose = () => {
@@ -411,6 +467,8 @@ export default {
     // 修改
     const action = ref('add')
     const handleSubmit = () => {
+      // validate	对整个表单进行校验的方法，参数为一个回调函数。该回调函数会在校验结束后被调用，
+      // 并传入两个参数：是否校验成功和未通过校验的字段。若不传入回调函数，则会返回一个 promise
       proxy.$refs.dialogForm.validate(async (valid) => {
         if (valid) {
           let param = toRaw(userForm) // 把双向绑定对象变成普通对象
@@ -421,7 +479,12 @@ export default {
           let res = await proxy.$api.userSubmit(param)
           if (res) {
             showModal.value = false
-            proxy.$message.success('新增用户成功')
+            if (action.value == 'add') {
+              proxy.$message.success('新增用户成功')
+            } else {
+              proxy.$message.success('编辑用户成功')
+            }
+
             handleReset('dialogForm')
             getUserList()
           }
@@ -435,6 +498,9 @@ export default {
       proxy.$nextTick(() => {
         // row.role = showRole(row.role)
         // console.log(row)
+        // row.state = Number(row.state) // 如果不是数字类型的会有bug
+        row.state = row.state - 0
+
         Object.assign(userForm, row)
       })
     }
@@ -450,6 +516,10 @@ export default {
       } else if (state == '2') {
         return '离职'
       } else return '试用期'
+    }
+    const handleCloseDialog = () => {
+      handleReset('dialogForm')
+      showModal.value = false
     }
     return {
       user,
@@ -476,7 +546,8 @@ export default {
       action,
       handleEdit,
       showRole,
-      showState
+      showState,
+      handleCloseDialog,
     }
   },
 }

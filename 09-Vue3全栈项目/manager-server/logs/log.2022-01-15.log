@@ -1,0 +1,28 @@
+[2022-01-15T21:54:07.193] [ERROR] error - TypeError: Cannot read properties of undefined (reading 'push')
+    at getMenuTree (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\routes\menus.js:23:12)
+    at D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\routes\menus.js:14:20
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\app.js:57:3
+    at async serve (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-static\index.js:53:9)
+    at async bodyParser (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-bodyparser\index.js:95:5)
+[2022-01-15T21:54:07.207] [ERROR] error - TypeError: Cannot read properties of undefined (reading 'push')
+    at getMenuTree (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\routes\menus.js:23:12)
+    at D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\routes\menus.js:14:20
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\app.js:57:3
+    at async serve (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-static\index.js:53:9)
+    at async bodyParser (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-bodyparser\index.js:95:5)
+[2022-01-15T21:55:39.392] [ERROR] error - TypeError: Cannot read properties of undefined (reading 'push')
+    at getMenuTree (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\routes\menus.js:23:12)
+    at D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\routes\menus.js:14:20
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\app.js:57:3
+    at async serve (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-static\index.js:53:9)
+    at async bodyParser (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-bodyparser\index.js:95:5)
+[2022-01-15T21:55:39.411] [ERROR] error - TypeError: Cannot read properties of undefined (reading 'push')
+    at getMenuTree (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\routes\menus.js:23:12)
+    at D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\routes\menus.js:14:20
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\app.js:57:3
+    at async serve (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-static\index.js:53:9)
+    at async bodyParser (D:\桌面文件\Web前端\前端课程\Vue代码\09-Vue3全栈项目\manager-server\node_modules\koa-bodyparser\index.js:95:5)

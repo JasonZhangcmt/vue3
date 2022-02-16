@@ -30,16 +30,34 @@ const app = createApp(App)
 app.use(router)  // 路由 引入
 
 app.use(store) // 用户账号 本地存储 全局vuex
-app.mount('#app')
+// app.mount('#app')
 
 console.log("main.js打印环境变量:", import.meta.env)
+console.log("main.js打印当前环境:", import.meta.env.MODE)
+
 
 app.config.globalProperties.$request = request // axios封装 全局注册
 app.config.globalProperties.$storage = storage // localStorage封装 全局注册
 app.config.globalProperties.$api = api // 登录 全局api
 
-// 统一注册el-icon图标
-for(let iconName in ElIconModules){
-  app.component(iconName,ElIconModules[iconName])
+// 统一注册el-icon图标 
+for (let iconName in ElIconModules) {
+  app.component(iconName, ElIconModules[iconName])
 }
-app.use(ElementPlus,{size:'small'}) // element-plus主题size设置
+
+app.directive('has', {
+  beforeMount: (el, binding) => {
+    let userAction = storage.getItem('actionList')
+    let value = binding.value
+    let hasPermission = userAction.includes(value)
+    if (!hasPermission) {
+      el.style.display = 'none'
+      // 怎么remove掉 原生JS
+      setTimeout(() => {
+        el.parentNode.removeChild(el)
+      }, 0)
+    }
+  }
+})
+app.use(ElementPlus, { size: 'small' }) // element-plus主题size设置
+app.mount('#app')
